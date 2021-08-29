@@ -18,7 +18,7 @@ pip install numberpartitioning
 
 ## Example
 
-Suppose we want to split the collect `[4, 6, 7, 5, 8]` into three parts. We can achieve that as follows:
+Suppose we want to split the collection `[4, 6, 7, 5, 8]` into three parts. We can achieve that as follows:
 
 ```python
 from numberpartitioning import karmarkar_karp
