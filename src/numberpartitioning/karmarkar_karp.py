@@ -8,6 +8,18 @@ Partition = List[List[int]]
 
 @dataclass
 class PartitioningResult:
+    """The result of performing a partitioning.
+
+    Parameters
+    ----------
+    partition:
+        The partition as a list of lists; each inner list is a part; a subset of the
+        numbers being partitioned so that their disjoint union make up the full set.
+    sizes:
+        List containing the corresponding sums of the parts; that is, the i'th element
+        is the sum of the i'th element of the partition.
+    """
+
     partition: Partition
     sizes: List[int]
 
@@ -18,6 +30,26 @@ def karmarkar_karp(
     return_indices: bool = False,
     method: str = "purepython",
 ) -> PartitioningResult:
+    """Produce a partition using the Karmarkar--Karp algorithm.
+
+    Parameters
+    ----------
+    numbers
+        The list of numbers to be partitioned.
+    num_parts
+        The desired number of parts in the partition. Default: 2.
+    return_indices
+        If True, the elements of the parts are the indices of the corresponding entries
+        of numbers; if False (default), the elements are the numbers themselves.
+    method
+        Which specific implementation to use. Currently the only allowed (and default)
+        value is "purepython".
+
+    Returns
+    -------
+    A partition representing by a ``PartitioningResult``.
+
+    """
     if method not in METHODS:
         raise ValueError(
             f'Invalid method "{method}". Valid options: {", ".join(METHODS)}'
