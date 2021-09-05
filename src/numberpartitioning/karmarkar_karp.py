@@ -38,7 +38,7 @@ def karmarkar_karp(
     return METHODS[method](numbers, return_indices, num_parts)
 
 
-def _argsort(seq):
+def _argsort(seq: List[int]) -> List[int]:
     return sorted(range(len(seq)), key=seq.__getitem__)
 
 

@@ -3,7 +3,7 @@ import pytest
 from numberpartitioning import karmarkar_karp
 
 
-def test_karmarkar_karp():
+def test_karmarkar_karp() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partition = [[8], [4, 7], [5, 6]]
     expected_sizes = [8, 11, 11]
@@ -12,7 +12,7 @@ def test_karmarkar_karp():
     assert result.sizes == expected_sizes
 
 
-def test_karmarkar_karp_can_give_indices():
+def test_karmarkar_karp_can_give_indices() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partition = [[4], [0, 3], [1, 2]]
     expected_sizes = [8, 11, 11]
@@ -21,7 +21,7 @@ def test_karmarkar_karp_can_give_indices():
     assert result.sizes == expected_sizes
 
 
-def test_karmarkar_karp_unordered():
+def test_karmarkar_karp_unordered() -> None:
     numbers = [5, 8, 6, 4, 7]
     expected_partition = [[8], [4, 7], [5, 6]]
     expected_sizes = [8, 11, 11]
@@ -30,7 +30,7 @@ def test_karmarkar_karp_unordered():
     assert result.sizes == expected_sizes
 
 
-def test_karmarkar_karp_unordered_indices():
+def test_karmarkar_karp_unordered_indices() -> None:
     numbers = [5, 8, 6, 4, 7]
     expected_partition = [[1], [3, 4], [0, 2]]
     expected_sizes = [8, 11, 11]
@@ -39,13 +39,13 @@ def test_karmarkar_karp_unordered_indices():
     assert result.sizes == expected_sizes
 
 
-def test_karmarkar_karp_large_problem():
+def test_karmarkar_karp_large_problem() -> None:
     numbers = list(range(800, 1200))
     result = karmarkar_karp(numbers, num_parts=7)
     assert list(map(sum, result.partition)) == result.sizes
     assert max(result.sizes) - min(result.sizes) == 603
 
 
-def test_karmarkar_karp_raises_unsupported_method():
+def test_karmarkar_karp_raises_unsupported_method() -> None:
     with pytest.raises(ValueError):
         karmarkar_karp([1, 2, 3], method="foo")
