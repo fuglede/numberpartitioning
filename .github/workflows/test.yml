@@ -23,7 +23,10 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip
-        pip install build pytest
+        pip install -r requirements.txt
+    - name: Lint
+      run: |
+        mypy --strict . && black --check . && isort --check . && flake8 .
     - name: Build package
       run: |
         python -m build

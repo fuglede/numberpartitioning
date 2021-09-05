@@ -1,0 +1,11 @@
+# Dev
+build
+
+# Test
+pytest
+
+# Lint
+mypy
+flake8
+black
+isort
