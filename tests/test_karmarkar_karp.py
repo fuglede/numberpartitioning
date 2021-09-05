@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../src')
+
 import pytest
 
 from numberpartitioning import karmarkar_karp
