@@ -1,3 +1,4 @@
+from math import inf
 from typing import Callable, Iterator, List, Optional, Tuple
 
 from .common import Partition, PartitioningResult
@@ -27,7 +28,7 @@ def complete_greedy(
     to_visit: List[Tuple[Partition, List[int], int]] = [
         ([[] for _ in range(num_parts)], [0] * num_parts, 0)
     ]
-    best_objective_value = float("inf")
+    best_objective_value = inf
     while to_visit:
         partition, sizes, depth = to_visit.pop()
         # If we have reach the leaves of the DFS tree, check if we have an improvement, and
