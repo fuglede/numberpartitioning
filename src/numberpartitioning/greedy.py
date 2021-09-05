@@ -31,8 +31,8 @@ def complete_greedy(
     best_objective_value = inf
     while to_visit:
         partition, sizes, depth = to_visit.pop()
-        # If we have reach the leaves of the DFS tree, check if we have an improvement, and
-        # yield if we do.
+        # If we have reach the leaves of the DFS tree, check if we have an improvement,
+        # and yield if we do.
         if depth == len(numbers):
             new_objective_value = (
                 objective(partition) if objective else max(sizes) - min(sizes)
