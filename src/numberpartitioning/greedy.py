@@ -7,6 +7,27 @@ from .common import Partition, PartitioningResult
 def greedy(
     numbers: List[int], num_parts: int = 2, return_indices: bool = False
 ) -> PartitioningResult:
+    """Produce a partition using the greedy algorithm.
+
+    Concretely, this orders the input numbers in descending order, then adds them to
+    the parts one at a time, each time adding the number to the currently smallest
+    part.
+
+    Parameters
+    ----------
+    numbers
+        The list of numbers to be partitioned.
+    num_parts
+        The desired number of parts in the partition. Default: 2.
+    return_indices
+        If True, the elements of the parts are the indices of the corresponding entries
+        of numbers; if False (default), the elements are the numbers themselves.
+
+    Returns
+    -------
+    A partition representing by a ``PartitioningResult``.
+
+    """
     sorted_numbers = sorted(enumerate(numbers), key=lambda x: x[1], reverse=True)
     sums = [0] * num_parts
     partition: Partition = [[] for _ in range(num_parts)]
@@ -23,6 +44,34 @@ def complete_greedy(
     return_indices: bool = False,
     objective: Optional[Callable[[Partition], float]] = None,
 ) -> Iterator[PartitioningResult]:
+    """Generate partition using the order from the greedy algorithm.
+
+    Concretely, this searches through all combinations by following the strategy that
+    adds to each part the largest number not yet added to any part, so that smaller
+    parts are prioritized. This is done depth-first, meaning that the smallest of the
+    input numbers are shuffled between different parts before larger input numbers are.
+
+    New partitions are yielded whenever an improvement is found, according to an
+    optional objective function.
+
+    Parameters
+    ----------
+    numbers
+        The list of numbers to be partitioned.
+    num_parts
+        The desired number of parts in the partition. Default: 2.
+    return_indices
+        If True, the elements of the parts are the indices of the corresponding entries
+        of numbers; if False (default), the elements are the numbers themselves.
+    objective
+        The objective function to be minimized. If None (default), this is the
+        difference between the size of the largest part and the smallest part.
+
+    Yields
+    ------
+    Partitions represented by a ``PartitioningResult`` whenever a new best is found.
+
+    """
     sorted_numbers = sorted(enumerate(numbers), key=lambda x: x[1], reverse=True)
     # Create a stack whose elements are partitions, their sums, and current depth
     to_visit: List[Tuple[Partition, List[int], int]] = [

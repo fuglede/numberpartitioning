@@ -1,6 +1,6 @@
 # Partition problem solvers in Python
 
-This repository includes an implementation of the [Karmarkar--Karp algorithm](https://en.wikipedia.org/wiki/Largest_differencing_method) (also known as the largest differencing method) for the [multiway number partitioning optimization problem](https://en.wikipedia.org/wiki/Multiway_number_partitioning).
+This repository includes an implementation of the [Karmarkar--Karp algorithm](https://en.wikipedia.org/wiki/Largest_differencing_method) (also known as the largest differencing method) for the [multiway number partitioning optimization problem](https://en.wikipedia.org/wiki/Multiway_number_partitioning), as well as some greedy algorithms.
 
 ## The problem
 
@@ -12,11 +12,11 @@ The objective function describing "closeness" is usually taken to be the differe
 
 The package is available from [PyPI](https://pypi.org/project/numberpartitioning/):
 
-```
+```sh
 pip install numberpartitioning
 ```
 
-## Example
+## Examples
 
 Suppose we want to split the collection `[4, 6, 7, 5, 8]` into three parts. We can achieve that as follows:
 
