@@ -29,5 +29,5 @@ jobs:
         python -m build
     - name: Install built package and test
       run: |
-        pip install --find-links=dist numberpartitioning
+        pip install dist/*.whl
         pytest
