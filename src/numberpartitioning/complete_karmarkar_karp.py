@@ -1,27 +1,9 @@
 import heapq
-from dataclasses import dataclass
 from itertools import count, permutations
 from math import inf
 from typing import Iterator, List, Tuple
 
-Partition = Tuple[Tuple[int, ...], ...]
-
-@dataclass
-class PartitioningResult:
-    """The result of performing a partitioning.
-
-    Parameters
-    ----------
-    partition:
-        The partition as a list of lists; each inner list is a part; a subset of the
-        numbers being partitioned so that their disjoint union make up the full set.
-    sizes:
-        List containing the corresponding sums of the parts; that is, the i'th element
-        is the sum of the i'th element of the partition.
-    """
-
-    partition: Partition
-    sizes: Tuple[int, ...]
+from .common import Partition, PartitioningResult
 
 
 def complete_karmarkar_karp(
@@ -63,14 +45,15 @@ def _argsort(seq):
 
 
 def _combine_partitions(
-        t1: Partition, t2: Partition
-        ) -> Iterator[Tuple[Partition, Tuple[int, ...]]]:
+    t1: Partition, t2: Partition
+) -> Iterator[Tuple[Partition, List[int]]]:
     yielded = set()
     for permutation in permutations(t1, len(t1)):
-        out = tuple(sorted((tuple(sorted(p + l)) for p, l in zip(permutation, t2))))
-        if out not in yielded:
-            yielded.add(out)
-            yield (out, tuple([sum(x) for x in out]))
+        out_ = tuple(sorted((tuple(sorted(p + l)) for p, l in zip(permutation, t2))))
+        out = sorted(sorted(p + l) for p, l in zip(permutation, t2))
+        if out_ not in yielded:
+            yielded.add(out_)
+            yield (out, [sum(x) for x in out])
 
 
 def _best_possible_partition_difference(node, num_parts):
@@ -79,28 +62,29 @@ def _best_possible_partition_difference(node, num_parts):
 
 
 def _get_indices(numbers: List[int], partition: Partition) -> Partition:
+    large_number = max(numbers) + 1
     indices: List[List[int]] = []
-    for p in partition:
+    for subpartition in partition:
         indices.append([])
-        for x in p:
+        for x in subpartition:
             i = numbers.index(x)
             indices[-1].append(i)
-            numbers[i] = inf
-    return tuple([tuple(x) for x in indices])
+            numbers[i] = large_number
+    return indices
 
 
 def _complete_karmarkar_karp_pure_python(
     numbers: List[int], return_indices: bool, num_parts: int
 ) -> Iterator[PartitioningResult]:
-    stack: List[List[Tuple[int, int, Partition, Tuple[int, ...]]]] = [[]]
+    stack: List[List[Tuple[int, int, Partition, List[int]]]] = [[]]
     heap_count = count()  # To avoid ambiguity in heaps
     numbers_ = sorted(numbers, reverse=True)
     for i in range(len(numbers_)):
-        this_partition: Partition = ((),) * (num_parts - 1) + ((numbers_[i],),)
-        this_sizes: Tuple[int, ...] = (0,) * (num_parts - 1) + (numbers_[i],)
-        stack[0].append((-numbers_[i], next(heap_count), tuple(this_partition),
-            this_sizes))
-    visited = set()
+        l: List[List[int]] = [[] for _ in range(num_parts - 1)]
+        r: List[List[int]] = [[numbers_[i]]]
+        this_partition: Partition = [*l, *r]
+        this_sizes: List[int] = [0] * (num_parts - 1) + [numbers_[i]]
+        stack[0].append((-numbers_[i], next(heap_count), this_partition, this_sizes))
     best = -inf
     while stack:
         partitions = stack.pop()
@@ -115,17 +99,17 @@ def _complete_karmarkar_karp_pure_python(
             if num == 0:
                 return
             continue
-        if tuple(partitions) not in visited:
-            visited.add(tuple(partitions))
         _, _, p1, p1_sum = heapq.heappop(partitions)
         _, _, p2, p2_sum = heapq.heappop(partitions)
         for new_partition, new_sizes in _combine_partitions(p1, p2):
-            tmp_partitions = [t for t in partitions]
+            tmp_partitions = partitions[:]
             indices = _argsort(new_sizes)
-            new_sizes = tuple((new_sizes[i] for i in indices))
-            new_partition = tuple((new_partition[i] for i in indices))
+            new_sizes = [new_sizes[i] for i in indices]
+            new_partition = [new_partition[i] for i in indices]
             diff = new_sizes[-1] - new_sizes[0]
-            heapq.heappush(tmp_partitions, (-diff, next(heap_count), new_partition, new_sizes))
+            heapq.heappush(
+                tmp_partitions, (-diff, next(heap_count), new_partition, new_sizes)
+            )
             stack.append(tmp_partitions)
 
 
