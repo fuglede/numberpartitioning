@@ -16,6 +16,12 @@ The package is available from [PyPI](https://pypi.org/project/numberpartitioning
 pip install numberpartitioning
 ```
 
+It can also be obtained from [conda-forge](https://anaconda.org/conda-forge/numberpartitioning):
+
+```sh
+mamba install -c conda-forge numberpartitioning
+```
+
 ## Examples
 
 Suppose we want to split the collection `[4, 6, 7, 5, 8]` into three parts. We can achieve that as follows:
