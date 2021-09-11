@@ -90,14 +90,15 @@ def _complete_karmarkar_karp_pure_python(
         partitions = stack.pop()
         if _best_possible_partition_difference(partitions, num_parts) <= best:
             continue
-        if len(partitions) == 1 and (num := partitions[0][0]) > best:
-            best = num
-            _, _, final_partition, final_sums = partitions[0]
-            if return_indices:
-                final_partition = _get_indices(numbers[:], final_partition)
-            yield PartitioningResult(final_partition, final_sums)
-            if num == 0:
-                return
+        if len(partitions) == 1:
+            if (num := partitions[0][0]) > best:
+                best = num
+                _, _, final_partition, final_sums = partitions[0]
+                if return_indices:
+                    final_partition = _get_indices(numbers[:], final_partition)
+                yield PartitioningResult(final_partition, final_sums)
+                if num == 0:
+                    return
             continue
         _, _, p1, p1_sum = heapq.heappop(partitions)
         _, _, p2, p2_sum = heapq.heappop(partitions)
