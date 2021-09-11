@@ -150,7 +150,7 @@ def test_complete_karmarkar_karp_no_index_error():
     ]
     partition_results = []
     sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=3)
+    res = complete_karmarkar_karp(numbers, num_parts=7)
     while True:
         result = next(res)
         partition_results.append(result.partition)
