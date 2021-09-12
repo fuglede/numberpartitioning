@@ -40,7 +40,7 @@ def complete_karmarkar_karp(
     return METHODS[method](numbers, return_indices, num_parts)
 
 
-def _argsort(seq):
+def _argsort(seq: List[int]) -> List[int]:
     return sorted(range(len(seq)), key=seq.__getitem__)
 
 
@@ -56,7 +56,9 @@ def _combine_partitions(
             yield (out, [sum(x) for x in out])
 
 
-def _best_possible_partition_difference(node, num_parts):
+def _best_possible_partition_difference(
+    node: List[Tuple[int, int, Partition, List[int]]], num_parts: int
+) -> int:
     tmp = sorted([sum(subset) for partition in node for subset in partition[2]])
     return -(tmp[-1] - sum(tmp[:-1]) // (num_parts - 1))
 
@@ -91,7 +93,8 @@ def _complete_karmarkar_karp_pure_python(
         if _best_possible_partition_difference(partitions, num_parts) <= best:
             continue
         if len(partitions) == 1:
-            if (num := partitions[0][0]) > best:
+            num = partitions[0][0]
+            if num > best:
                 best = num
                 _, _, final_partition, final_sums = partitions[0]
                 if return_indices:
