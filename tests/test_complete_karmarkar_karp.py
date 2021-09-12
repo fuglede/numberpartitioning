@@ -1,9 +1,8 @@
 import pytest
-
 from numberpartitioning import complete_karmarkar_karp
 
 
-def test_complete_karmarkar_karp():
+def test_complete_karmarkar_karp() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partitions = [[[8], [4, 7], [5, 6]]]
     expected_sizes = [[8, 11, 11]]
@@ -21,7 +20,7 @@ def test_complete_karmarkar_karp():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_can_give_indices():
+def test_complete_karmarkar_karp_can_give_indices() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partitions = [[[4], [0, 3], [1, 2]]]
     expected_sizes = [[8, 11, 11]]
@@ -39,7 +38,7 @@ def test_complete_karmarkar_karp_can_give_indices():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_unordered():
+def test_complete_karmarkar_karp_unordered() -> None:
     numbers = [5, 8, 6, 4, 7]
     expected_partitions = [[[8], [4, 7], [5, 6]]]
     expected_sizes = [[8, 11, 11]]
@@ -57,7 +56,7 @@ def test_complete_karmarkar_karp_unordered():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_unordered_indices():
+def test_complete_karmarkar_karp_unordered_indices() -> None:
     numbers = [5, 8, 6, 4, 7]
     expected_partitions = [[[1], [3, 4], [0, 2]]]
     expected_sizes = [[8, 11, 11]]
@@ -75,7 +74,7 @@ def test_complete_karmarkar_karp_unordered_indices():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_optimal_solution():
+def test_complete_karmarkar_karp_optimal_solution() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partitions = [[[6, 8], [4, 5, 7]], [[4, 5, 6], [7, 8]]]
     expected_sizes = [[14, 16], [15, 15]]
@@ -93,7 +92,7 @@ def test_complete_karmarkar_karp_optimal_solution():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_larger_example():
+def test_complete_karmarkar_karp_larger_example() -> None:
     numbers = list(range(10, 30))
     expected_partitions = [
         [
@@ -122,7 +121,7 @@ def test_complete_karmarkar_karp_larger_example():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_no_index_error():
+def test_complete_karmarkar_karp_no_index_error() -> None:
     numbers = list(range(10, 50))
     expected_partitions = [
         [
@@ -161,6 +160,6 @@ def test_complete_karmarkar_karp_no_index_error():
     assert sizes_results == expected_sizes
 
 
-def test_complete_karmarkar_karp_raises_unsupported_method():
+def test_complete_karmarkar_karp_raises_unsupported_method() -> None:
     with pytest.raises(ValueError):
         complete_karmarkar_karp([1, 2, 3], method="foo")
