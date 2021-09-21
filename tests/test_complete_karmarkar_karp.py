@@ -1,4 +1,5 @@
 import pytest
+
 from numberpartitioning import complete_karmarkar_karp
 
 
