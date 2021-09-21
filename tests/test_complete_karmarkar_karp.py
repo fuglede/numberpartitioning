@@ -1,5 +1,4 @@
 import pytest
-
 from numberpartitioning import complete_karmarkar_karp
 
 
@@ -7,90 +6,50 @@ def test_complete_karmarkar_karp() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partitions = [[[8], [4, 7], [5, 6]]]
     expected_sizes = [[8, 11, 11]]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=3)
-    try:
-        while True:
-            result = next(res)
-            partition_results.append(result.partition)
-            sizes_results.append(result.sizes)
-    except StopIteration:
-        pass
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=3)
+    for i, result in enumerate(results):
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_can_give_indices() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partitions = [[[4], [0, 3], [1, 2]]]
     expected_sizes = [[8, 11, 11]]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=3, return_indices=True)
-    try:
-        while True:
-            result = next(res)
-            partition_results.append(result.partition)
-            sizes_results.append(result.sizes)
-    except StopIteration:
-        pass
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=3, return_indices=True)
+    for i, result in enumerate(results):
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_unordered() -> None:
     numbers = [5, 8, 6, 4, 7]
     expected_partitions = [[[8], [4, 7], [5, 6]]]
     expected_sizes = [[8, 11, 11]]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=3)
-    try:
-        while True:
-            result = next(res)
-            partition_results.append(result.partition)
-            sizes_results.append(result.sizes)
-    except StopIteration:
-        pass
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=3)
+    for i, result in enumerate(results):
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_unordered_indices() -> None:
     numbers = [5, 8, 6, 4, 7]
     expected_partitions = [[[1], [3, 4], [0, 2]]]
     expected_sizes = [[8, 11, 11]]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=3, return_indices=True)
-    try:
-        while True:
-            result = next(res)
-            partition_results.append(result.partition)
-            sizes_results.append(result.sizes)
-    except StopIteration:
-        pass
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=3, return_indices=True)
+    for i, result in enumerate(results):
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_optimal_solution() -> None:
     numbers = [4, 5, 6, 7, 8]
     expected_partitions = [[[6, 8], [4, 5, 7]], [[4, 5, 6], [7, 8]]]
     expected_sizes = [[14, 16], [15, 15]]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=2)
-    try:
-        while True:
-            result = next(res)
-            partition_results.append(result.partition)
-            sizes_results.append(result.sizes)
-    except StopIteration:
-        pass
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=2)
+    for i, result in enumerate(results):
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_larger_example() -> None:
@@ -108,18 +67,10 @@ def test_complete_karmarkar_karp_larger_example() -> None:
         ],
     ]
     expected_sizes = [[129, 130, 131], [130, 130, 130]]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=3)
-    try:
-        while True:
-            result = next(res)
-            partition_results.append(result.partition)
-            sizes_results.append(result.sizes)
-    except StopIteration:
-        pass
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=3)
+    for i, result in enumerate(results):
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_no_index_error() -> None:
@@ -148,17 +99,11 @@ def test_complete_karmarkar_karp_no_index_error() -> None:
         [167, 168, 169, 169, 169, 169, 169],
         [168, 168, 168, 169, 169, 169, 169],
     ]
-    partition_results = []
-    sizes_results = []
-    res = complete_karmarkar_karp(numbers, num_parts=7)
-    while True:
-        result = next(res)
-        partition_results.append(result.partition)
-        sizes_results.append(result.sizes)
-        if len(partition_results) == 2:
-            break
-    assert partition_results == expected_partitions
-    assert sizes_results == expected_sizes
+    results = complete_karmarkar_karp(numbers, num_parts=7)
+    for i in range(2):
+        result = next(results)
+        assert result.partition == expected_partitions[i]
+        assert result.sizes == expected_sizes[i]
 
 
 def test_complete_karmarkar_karp_raises_unsupported_method() -> None:
