@@ -78,7 +78,6 @@ def _get_indices(numbers: List[int], partition: Partition) -> Partition:
 def _complete_karmarkar_karp_pure_python(
     numbers: List[int], return_indices: bool, num_parts: int
 ) -> Iterator[PartitioningResult]:
-    count_ = 0
     stack: List[List[Tuple[int, int, Partition, List[int]]]] = [[]]
     heap_count = count()  # To avoid ambiguity in heaps
     numbers_ = sorted(numbers, reverse=True)
@@ -94,7 +93,6 @@ def _complete_karmarkar_karp_pure_python(
         if _best_possible_partition_difference(partitions, num_parts) <= best:
             continue
         if len(partitions) == 1:
-            count_ += 1
             num = partitions[0][0]
             if num > best:
                 best = num
