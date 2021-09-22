@@ -60,9 +60,11 @@ def _possible_partition_difference_lower_bound(
     node: List[Tuple[int, int, Partition, List[int]]], num_parts: int
 ) -> int:
     sizes_flattened = [size for partition in node for size in partition[3]]
-    # The numerator in the return value is equal to:
-    # -(max(sizes_flattened) - sum(sorted(sizes_flattened)[:-1]))
-    return (sum(sizes_flattened) - 2 * max(sizes_flattened)) // (num_parts - 1)
+    max_sizes_flattened = max(sizes_flattened)
+    return -(
+        max_sizes_flattened
+        - (sum(sizes_flattened) - max_sizes_flattened) // (num_parts - 1)
+    )
 
 
 def _get_indices(numbers: List[int], partition: Partition) -> Partition:
