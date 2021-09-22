@@ -102,7 +102,6 @@ def _complete_karmarkar_karp_pure_python(
                 _, _, final_partition, final_sums = partitions[0]
                 if return_indices:
                     final_partition = _get_indices(numbers[:], final_partition)
-                print(final_partition)
                 yield PartitioningResult(final_partition, final_sums)
                 if num == 0:
                     return
