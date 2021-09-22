@@ -45,22 +45,24 @@ def _argsort(seq: List[int]) -> List[int]:
 
 
 def _combine_partitions(
-    t1: Partition, t2: Partition
+    partition_1: Partition, partition_2: Partition
 ) -> Iterator[Tuple[Partition, List[int]]]:
     yielded = set()
-    for permutation in permutations(t1, len(t1)):
-        out_ = tuple(sorted((tuple(sorted(p + l)) for p, l in zip(permutation, t2))))
-        out = sorted(sorted(p + l) for p, l in zip(permutation, t2))
+    for permutation in permutations(partition_1, len(partition_1)):
+        out = sorted(sorted(p + l) for p, l in zip(permutation, partition_2))
+        out_ = tuple(tuple(el) for el in out)
         if out_ not in yielded:
             yielded.add(out_)
             yield (out, [sum(x) for x in out])
 
 
-def _best_possible_partition_difference(
+def _possible_partition_difference_lower_bound(
     node: List[Tuple[int, int, Partition, List[int]]], num_parts: int
 ) -> int:
-    tmp = sorted([sum(subset) for partition in node for subset in partition[2]])
-    return -(tmp[-1] - sum(tmp[:-1]) // (num_parts - 1))
+    sizes_flattened = [size for partition in node for size in partition[3]]
+    # The numerator in the return value is equal to:
+    # -(max(sizes_flattened) - sum(sorted(sizes_flattened)[:-1]))
+    return (sum(sizes_flattened) - 2 * max(sizes_flattened)) // (num_parts - 1)
 
 
 def _get_indices(numbers: List[int], partition: Partition) -> Partition:
@@ -80,17 +82,18 @@ def _complete_karmarkar_karp_pure_python(
 ) -> Iterator[PartitioningResult]:
     stack: List[List[Tuple[int, int, Partition, List[int]]]] = [[]]
     heap_count = count()  # To avoid ambiguity in heaps
-    numbers_ = sorted(numbers, reverse=True)
-    for i in range(len(numbers_)):
+    for number in numbers:
         l: List[List[int]] = [[] for _ in range(num_parts - 1)]
-        r: List[List[int]] = [[numbers_[i]]]
-        this_partition: Partition = [*l, *r]
-        this_sizes: List[int] = [0] * (num_parts - 1) + [numbers_[i]]
-        stack[0].append((-numbers_[i], next(heap_count), this_partition, this_sizes))
+        r: List[List[int]] = [[number]]
+        this_partition: Partition = l + r
+        this_sizes: List[int] = [0] * (num_parts - 1) + [number]
+        heapq.heappush(
+            stack[0], (-number, next(heap_count), this_partition, this_sizes)
+        )
     best = -inf
     while stack:
         partitions = stack.pop()
-        if _best_possible_partition_difference(partitions, num_parts) <= best:
+        if _possible_partition_difference_lower_bound(partitions, num_parts) <= best:
             continue
         if len(partitions) == 1:
             num = partitions[0][0]
@@ -99,6 +102,7 @@ def _complete_karmarkar_karp_pure_python(
                 _, _, final_partition, final_sums = partitions[0]
                 if return_indices:
                     final_partition = _get_indices(numbers[:], final_partition)
+                print(final_partition)
                 yield PartitioningResult(final_partition, final_sums)
                 if num == 0:
                     return
