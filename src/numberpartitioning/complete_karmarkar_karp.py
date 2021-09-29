@@ -40,10 +40,6 @@ def complete_karmarkar_karp(
     return METHODS[method](numbers, return_indices, num_parts)
 
 
-def _argsort(seq: List[int]) -> List[int]:
-    return sorted(range(len(seq)), key=seq.__getitem__)
-
-
 def _combine_partitions(
     partition_1: Partition, partition_2: Partition
 ) -> Iterator[Tuple[Partition, List[int]]]:
@@ -110,16 +106,15 @@ def _complete_karmarkar_karp_pure_python(
             continue
         _, _, p1, p1_sum = heapq.heappop(partitions)
         _, _, p2, p2_sum = heapq.heappop(partitions)
+        tmp_stack_extension = []
         for new_partition, new_sizes in _combine_partitions(p1, p2):
             tmp_partitions = partitions[:]
-            indices = _argsort(new_sizes)
-            new_sizes = [new_sizes[i] for i in indices]
-            new_partition = [new_partition[i] for i in indices]
-            diff = new_sizes[-1] - new_sizes[0]
+            diff = max(new_sizes) - min(new_sizes)
             heapq.heappush(
                 tmp_partitions, (-diff, next(heap_count), new_partition, new_sizes)
             )
-            stack.append(tmp_partitions)
+            tmp_stack_extension.append(tmp_partitions)
+        stack.extend(sorted(tmp_stack_extension))
 
 
 METHODS = {"purepython": _complete_karmarkar_karp_pure_python}
