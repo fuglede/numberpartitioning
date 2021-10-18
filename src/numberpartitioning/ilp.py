@@ -8,9 +8,6 @@ from numberpartitioning.common import Partition, PartitioningResult
 import cvxpy
 from numberpartitioning.solve import minimize
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 def max_min_partition(
     numbers: List[int], num_parts: int = 2, return_indices: bool = False,
