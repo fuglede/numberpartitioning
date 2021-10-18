@@ -63,8 +63,8 @@ def max_min_partition(
     >>> int(min(result.sizes))
     0
     
-    >>> max_min_partition([10,20,40,0], num_parts=2, copies=2, return_indices=True)
-    PartitioningResult(partition=[[0, 1, 2, 3, 3], [0, 1, 2]], sizes=[70.0, 70.0])
+    >>> max_min_partition([10,20,40,1], num_parts=2, copies=2, return_indices=True)
+    PartitioningResult(partition=[[0, 1, 2, 3], [0, 1, 2, 3]], sizes=[71.0, 71.0])
 
     >>> max_min_partition([10,20,40,0], num_parts=2, copies=[2,1,1,0], return_indices=True)
     PartitioningResult(partition=[[0, 0, 1], [2]], sizes=[40.0, 40.0])
@@ -169,21 +169,9 @@ def min_diff_partition(
 
     >>> min_diff_partition([10,20,40,0], num_parts=2, return_indices=False)
     PartitioningResult(partition=[[10, 20], [40, 0]], sizes=[30.0, 40.0])
-
-    >>> result = min_diff_partition([10,20,40,0], num_parts=3)
-    >>> int(min(result.sizes))
-    10
-
-    >>> result = min_diff_partition([10,20,40,0], num_parts=4)
-    >>> int(min(result.sizes))
-    0
     
-    >>> result = min_diff_partition([10,20,40,0], num_parts=5)
-    >>> int(min(result.sizes))
-    0
-    
-    >>> min_diff_partition([10,20,40,0], num_parts=2, copies=2, return_indices=True)
-    PartitioningResult(partition=[[0, 1, 2], [0, 1, 2, 3, 3]], sizes=[70.0, 70.0])
+    >>> min_diff_partition([10,20,40,1], num_parts=2, copies=2, return_indices=True)
+    PartitioningResult(partition=[[0, 1, 2, 3], [0, 1, 2, 3]], sizes=[71.0, 71.0])
 
     >>> min_diff_partition([10,20,40,0], num_parts=2, copies=[2,1,1,0], return_indices=True)
     PartitioningResult(partition=[[0, 0, 1], [2]], sizes=[40.0, 40.0])

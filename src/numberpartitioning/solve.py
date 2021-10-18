@@ -15,7 +15,7 @@ DEFAULT_SOLVERS=[cvxpy.XPRESS, cvxpy.OSQP, cvxpy.SCS]
 import logging
 logger = logging.getLogger(__name__)
 
-def solve(problem:cvxpy.Problem, solvers:list=DEFAULT_SOLVERS):
+def solve(problem:cvxpy.Problem, solvers:list=DEFAULT_SOLVERS)  -> None:
 	"""
 	Try to solve the given cvxpy problem using the given solvers, in order, until one succeeds.
     See here https://www.cvxpy.org/tutorial/advanced/index.html for a list of supported solvers.
