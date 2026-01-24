@@ -1,3 +1,5 @@
+NOTE: This repository has been moved to https://codeberg.org/fuglede/numberpartitioning
+
 # Partition problem solvers in Python
 
 This repository includes an implementation of the [Karmarkar--Karp algorithm](https://en.wikipedia.org/wiki/Largest_differencing_method) (also known as the largest differencing method) for the [multiway number partitioning optimization problem](https://en.wikipedia.org/wiki/Multiway_number_partitioning), as well as some greedy algorithms.
@@ -43,3 +45,4 @@ result = karmarkar_karp(numbers, num_parts=3)
 ```
 
 Here, `result.sizes` is `[9, 10, 11]` but it is possible to achieve a solution in which the sums of each part is 10.
+
